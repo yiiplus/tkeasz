@@ -1,0 +1,5 @@
+- name: 配置/etc/docker/daemon.json
+  template: src=daemon.json.j2 dest=/etc/docker/daemon.json
+
+- name: 重启dockerd是配置生效
+  shell: "systemctl reload dockerd"

@@ -1,0 +1,40 @@
+172.16.64.13 ansible_ssh_user=root HOSTNAME=k8s-001
+172.16.64.10 ansible_ssh_user=root HOSTNAME=k8s-002
+172.16.64.3 ansible_ssh_user=root HOSTNAME=k8s-003
+
+# 部署节点：运行ansible 脚本的节点
+[deploy]
+172.16.64.13
+
+# NFS服务端
+[nfs_server]
+172.16.64.13
+
+# NFS客户端
+[nfs_client]
+172.16.64.10
+172.16.64.3
+
+[all:vars]
+# 部署节点IP地址
+DEPLOY_IP="{{ groups['deploy'][0] }}"
+
+# 集群basic auth 使用的用户名和密码
+BASIC_AUTH_USER="admin"
+BASIC_AUTH_PASS="DhWkHeQ8NXeR"
+
+# NFS挂载路径
+NFS_MOUNT_PATH="/data/nfs/kubenetes"
+# NFS网段
+NFS_CIDR="172.16.64.0/24"
+# NFS权限
+NFS_PERMISSIOM="rw,no_root_squash,no_all_squash,sync"
+# NFS服务端IP
+NFS_SERVER_IP="{{ groups['nfs_server'][0] }}"
+# NFS PROVISIONER NAME
+NFS_PROVISIONER_NAME='example.com/nfs'
+
+# HARBOR HOSTNAME
+HARBOR_HOSTNAME='harbor.example.com'
+# HARBOR ADMIN PASSWORD
+HARBOR_ADMIN_PASSWORD='HWR7GWPkJBVn'

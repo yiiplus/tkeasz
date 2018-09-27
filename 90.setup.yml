@@ -1,0 +1,21 @@
+- hosts: 
+  - all
+  roles:
+    - hosts
+
+- hosts:
+  - nfs_server
+  - nfs_client
+  roles:
+  - nfs
+  gather_facts: yes
+
+- hosts: 
+  - deploy
+  roles:
+    - harbor
+
+- hosts: 
+  - all
+  roles:
+    - docker

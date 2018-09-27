@@ -1,0 +1,43 @@
+- name: 安装NFS服务端
+  shell: "yum install -y rpcbind nfs-utils"
+  when: ansible_eth0.ipv4.address in groups.nfs_server
+
+- name: 安装NFS客户端
+  shell: "yum install -y nfs-utils"
+  when: ansible_eth0.ipv4.address in groups.nfs_client
+
+- name: 创建NFS挂载点
+  shell: "mkdir -p {{ NFS_MOUNT_PATH }} &&\
+        chmod -R 777 {{ NFS_MOUNT_PATH }}"
+  when: ansible_eth0.ipv4.address in groups.nfs_server
+
+- name: NFS服务配置
+  template: src=exports.j2 dest=/etc/exports
+  when: ansible_eth0.ipv4.address in groups.nfs_server
+
+- name: 启动NFS服务端服务
+  shell: "systemctl enable rpcbind nfs &&\
+        systemctl start rpcbind nfs"
+  when: ansible_eth0.ipv4.address in groups.nfs_server
+
+- name: 启动NFS客户端服务
+  shell: "systemctl enable nfs &&\
+        systemctl start nfs"
+  when: ansible_eth0.ipv4.address in groups.nfs_client
+
+- name: 检验NFS服务
+  shell: "showmount -e {{ NFS_SERVER_IP }}"
+  register: check_out
+- debug: msg="{{check_out.stdout_lines}}"
+
+- name: 配置Kubenetes deployment yaml
+  template: src=deployment.yaml.j2 dest=/etc/ansible/manifests/storage/nfs/deployment.yaml
+  when: ansible_eth0.ipv4.address in groups.nfs_server
+
+- name: 配置Kubenetes storageClass yaml
+  template: src=storageClass.yaml.j2 dest=/etc/ansible/manifests/storage/nfs/storageClass.yaml
+  when: ansible_eth0.ipv4.address in groups.nfs_server
+
+- name: deploy kube yaml
+  shell: "kubectl create -f /etc/ansible/manifests/storage/nfs/"
+  when: ansible_eth0.ipv4.address in groups.nfs_server
