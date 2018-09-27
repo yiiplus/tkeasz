@@ -3,6 +3,8 @@
 
 项目基于`Centos7`，需要了解基础`kubernetes` `docker` `linux`知识，关于`ansible`建议阅读 [ansible超快入门](http://weiweidefeng.blog.51cto.com/1957995/1895261) 。
 
+> 注：本项目只专注于在`TKE`下的各类拓展工具的自动化部署，想要了解`kubernetes`集群更底层的安装部署可以关注[GitHub - gjmzj/kubeasz](https://github.com/gjmzj/kubeasz)。  
+
 ## 安装步骤
 - 00、规划集群和安装概览
 
@@ -13,5 +15,3 @@
 - 03、安装镜像仓库`Harbor`
 
 - 04、配置`docker`
-
-> 注：本项目只专注于在`TKE`下的各类拓展工具的自动化部署，想要了解`kubernetes`集群更底层的安装部署可以关注[GitHub - gjmzj/kubeasz](https://github.com/gjmzj/kubeasz)。  
