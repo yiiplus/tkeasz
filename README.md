@@ -1,4 +1,4 @@
-# tkeasz
+# TKEASZ
 `tkeasz`是在`TKE`（腾讯云的[容器服务](https://console.cloud.tencent.com/tke)）环境下，利用`ansible-playbook`自动化配置、部署`kubernetes`集群内各类组件的工具。既提供一键安装脚本，也可以分步执行安装各个组件。
 
 项目基于`Centos7`，需要了解基础`kubernetes` `docker` `linux`知识，关于`ansible`建议阅读 [ansible超快入门](http://weiweidefeng.blog.51cto.com/1957995/1895261) 。
